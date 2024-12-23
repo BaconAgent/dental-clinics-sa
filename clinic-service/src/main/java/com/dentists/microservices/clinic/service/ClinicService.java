@@ -33,4 +33,13 @@ public class ClinicService {
                 .stream().map(clinic -> new ClinicResponse(clinic.getId(),clinic.getName(),clinic.getAddress()))
                 .toList();
     }
+    public void deleteClinicById(String clinicId) {
+        if(clinicRepository.existsById(clinicId)) {
+            clinicRepository.deleteById(clinicId);
+        }
+        else
+        {
+            throw new RuntimeException("Clinic not found");
+        }
+    }
 }

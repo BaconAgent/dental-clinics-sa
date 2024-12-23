@@ -2,10 +2,10 @@ package com.dentists.microservices.clinic.controller;
 
 import com.dentists.microservices.clinic.dto.ClinicRequest;
 import com.dentists.microservices.clinic.dto.ClinicResponse;
-import com.dentists.microservices.clinic.model.Clinic;
 import com.dentists.microservices.clinic.service.ClinicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,5 +27,15 @@ public class ClinicController {
     @ResponseStatus(HttpStatus.OK)
     public List<ClinicResponse> getAllClinics(){
         return clinicService.getAllClinics();
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteClinic(@PathVariable String id){
+        try {
+            clinicService.deleteClinicById(id);
+            return ResponseEntity.ok("Clinic deleted successfully.");
+        }
+        catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
